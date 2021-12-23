@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'hsiliev'
-version '0.1.2'
+version '0.1.3'
 
 
 repositories {
@@ -29,11 +29,16 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/hsiliev/liquibase-lock-timeout"
+            url = uri("https://maven.pkg.github.com/hsiliev/liquibase-lock-timeout")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }
