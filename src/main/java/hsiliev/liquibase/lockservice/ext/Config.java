@@ -1,7 +1,8 @@
 package hsiliev.liquibase.lockservice.ext;
 
 public class Config {
-    private static final long DEFAULT_MAX_LOCK_TIMEOUT_MINUTES = 30;
+    public static final long DEFAULT_MAX_LOCK_TIMEOUT_MINUTES = 30;
+    public static final String MAX_LOCK_TIMEOUT_PROPERTY = "liquibase.ext.lock.maxTimeoutMinutes";
 
     private static Config instance = new Config();
 
@@ -14,7 +15,7 @@ public class Config {
 
     public long maxLockTimeoutMinutes() {
         try {
-            return Long.parseLong(System.getProperty("liquibase.ext.lock.maxtimeoutminutes"));
+            return Long.parseLong(System.getProperty(MAX_LOCK_TIMEOUT_PROPERTY));
         } catch (NumberFormatException e) {
             return DEFAULT_MAX_LOCK_TIMEOUT_MINUTES;
         }
