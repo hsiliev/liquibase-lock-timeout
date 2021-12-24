@@ -33,7 +33,7 @@ class LockServiceExtTest {
     );
     ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor();
     System.setProperty("liquibase.changelogLockWaitTimeInMinutes", "1");
-    System.setProperty("liquibase.ext.lock.maxTimeoutMinutes", "2");
+    System.setProperty("liquibase.ext.changelogLockTimeoutInMinutes", "2");
     liquibase = new Liquibase(CHANGE_LOG_FILE, resourceAccessor, new JdbcConnection(connection));
     liquibase.update(new Contexts());
   }
