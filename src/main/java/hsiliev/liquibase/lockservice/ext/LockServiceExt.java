@@ -38,12 +38,12 @@ public class LockServiceExt extends StandardLockService {
         );
         if (locked == Boolean.TRUE) {
           Date lockedDate = executor.queryForObject(
-              new SelectFromDatabaseChangeLogLockStatement("LOCKEDGRANTED"), Date.class
+              new SelectFromDatabaseChangeLogLockStatement("LOCKGRANTED"), Date.class
           );
           if (lockedDate != null) {
             long minutesSinceLock = Duration.between(lockedDate.toInstant(), Instant.now()).toMinutes();
             LOG.info("Lock on " + dbName + " created at " + lockedDate + ", " + minutesSinceLock + " minutes from now");
-            if (minutesSinceLock > 30) {
+            if (minutesSinceLock > MAX_LOCK_TIMEOUT_MINUTES) {
               LOG.warning("Releasing lock on " + dbName + " as max lock time is " +
                               MAX_LOCK_TIMEOUT_MINUTES + " minutes");
               releaseLock();
