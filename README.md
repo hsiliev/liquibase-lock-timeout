@@ -14,3 +14,4 @@ Java system property `liquibase.ext.lock.maxtimeoutminutes` can be used to chang
 ## Credits:
 * https://github.com/oridool/liquibase-locking
 * https://github.com/liquibase/liquibase-nochangeloglock
+* https://www.baeldung.com/quarkus-extension-java
