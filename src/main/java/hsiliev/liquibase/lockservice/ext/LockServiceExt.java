@@ -1,13 +1,10 @@
 package hsiliev.liquibase.lockservice.ext;
 
 import liquibase.Scope;
-import liquibase.exception.DatabaseException;
 import liquibase.exception.LockException;
-import liquibase.executor.Executor;
-import liquibase.executor.ExecutorService;
+import liquibase.lockservice.DatabaseChangeLogLock;
 import liquibase.lockservice.StandardLockService;
 import liquibase.logging.Logger;
-import liquibase.statement.core.SelectFromDatabaseChangeLogLockStatement;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -26,35 +23,19 @@ public class LockServiceExt extends StandardLockService {
   @Override
   public void waitForLock() throws LockException {
     String dbName = database.getDatabaseProductName();
-    LOG.info("Checking lock date for " + dbName);
+    LOG.info("Checking lock granted date for " + dbName);
 
-    try {
-      if (this.hasDatabaseChangeLogLockTable()) {
-        Executor executor = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor(
-            "jdbc", database
-        );
-        Boolean locked = executor.queryForObject(
-            new SelectFromDatabaseChangeLogLockStatement("LOCKED"), Boolean.class
-        );
-        if (locked == Boolean.TRUE) {
-          Date lockedDate = executor.queryForObject(
-              new SelectFromDatabaseChangeLogLockStatement("LOCKGRANTED"), Date.class
-          );
-          if (lockedDate != null) {
-            long minutesSinceLock = Duration.between(lockedDate.toInstant(), Instant.now()).toMinutes();
-            LOG.info("Lock on " + dbName + " created at " + lockedDate + ", " + minutesSinceLock + " minutes from now");
-            if (minutesSinceLock > MAX_LOCK_TIMEOUT_MINUTES) {
-              LOG.warning("Releasing lock on " + dbName + " as max lock time is " +
-                              MAX_LOCK_TIMEOUT_MINUTES + " minutes");
-              releaseLock();
-            }
-          } else {
-            LOG.warning("LOCKGRANTED field missing for lock table on database " + dbName);
-          }
-        }
+    DatabaseChangeLogLock[] locks = listLocks();
+    if (locks.length > 0) {
+      DatabaseChangeLogLock lock = locks[0];
+      Date lockedGranted = lock.getLockGranted();
+      long minutesSinceLock = Duration.between(lockedGranted.toInstant(), Instant.now()).toMinutes();
+      LOG.info("Lock on " + dbName + " granted at " + lockedGranted + ", " + minutesSinceLock + " minutes from now");
+      if (minutesSinceLock > MAX_LOCK_TIMEOUT_MINUTES) {
+        LOG.warning("Releasing lock on " + dbName + " as max lock time is " +
+                        MAX_LOCK_TIMEOUT_MINUTES + " minutes");
+        releaseLock();
       }
-    } catch (DatabaseException e) {
-      LOG.severe("Failed to check lock date on " + dbName, e);
     }
 
     super.waitForLock();
