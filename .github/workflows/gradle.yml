@@ -29,7 +29,5 @@ jobs:
         uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
         with:
           arguments: build
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@1.1.3
-        with:
-          github-token: ${{ github.token }}
+      - name: Report coverage
+        uses: codecov/codecov-action@v2
