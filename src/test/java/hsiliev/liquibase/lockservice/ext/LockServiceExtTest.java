@@ -42,6 +42,8 @@ class LockServiceExtTest {
   void cleanup() throws SQLException, LiquibaseException {
     liquibase.close();
     connection.close();
+    System.clearProperty("liquibase.changelogLockWaitTimeInMinutes");
+    System.clearProperty("liquibase.ext.changelogLockTimeoutInMinutes");
   }
 
   @Test

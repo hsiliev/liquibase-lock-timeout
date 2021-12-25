@@ -25,7 +25,7 @@ public class LockServiceExt extends StandardLockService {
 
   @Override
   public void waitForLock() throws LockException {
-    String dbName = database.getDatabaseChangeLogLockTableName();
+    String dbName = database.getDatabaseProductName();
     LOG.info("Checking lock date for " + dbName);
 
     try {
@@ -49,7 +49,7 @@ public class LockServiceExt extends StandardLockService {
               releaseLock();
             }
           } else {
-            LOG.warning("LOCKEDGRANTED field is missing for locked database " + dbName);
+            LOG.warning("LOCKGRANTED field missing for lock table on database " + dbName);
           }
         }
       }
