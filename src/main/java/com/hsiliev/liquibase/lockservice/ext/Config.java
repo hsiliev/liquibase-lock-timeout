@@ -1,4 +1,4 @@
-package hsiliev.liquibase.lockservice.ext;
+package com.hsiliev.liquibase.lockservice.ext;
 
 public class Config {
     public static final long DEFAULT_MAX_LOCK_TIMEOUT_MINUTES = 30;

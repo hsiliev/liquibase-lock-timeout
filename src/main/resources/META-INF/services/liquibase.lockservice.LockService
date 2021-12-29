@@ -1,1 +1,1 @@
-hsiliev.liquibase.lockservice.ext.LockServiceExt
+com.hsiliev.liquibase.lockservice.ext.LockServiceExt

@@ -1,5 +1,6 @@
-package hsiliev.liquibase.lockservice.ext;
+package com.hsiliev.liquibase.lockservice.ext;
 
+import com.hsiliev.liquibase.lockservice.ext.Config;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

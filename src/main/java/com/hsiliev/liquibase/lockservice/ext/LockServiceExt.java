@@ -1,4 +1,4 @@
-package hsiliev.liquibase.lockservice.ext;
+package com.hsiliev.liquibase.lockservice.ext;
 
 import liquibase.Scope;
 import liquibase.exception.LockException;
