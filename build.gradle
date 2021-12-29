@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.hsiliev'
@@ -33,6 +34,10 @@ jacocoTestReport {
     }
 }
 
+signing {
+    useInMemoryPgpKeys(GPG_SIGNING_KEY, GPG_SIGNING_PASSWORD)
+    sign configurations.archives
+}
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
