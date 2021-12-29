@@ -2,9 +2,10 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven-publish'
+    id 'signing'
 }
 
-group 'hsiliev'
+group 'com.hsiliev'
 version '0.5'
 
 
@@ -15,6 +16,10 @@ repositories {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+}
+
+signing {
+    sign configurations.archives
 }
 
 jacocoTestReport {
