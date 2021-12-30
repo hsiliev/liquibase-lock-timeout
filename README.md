@@ -9,20 +9,22 @@ Liquibase LockService that implements maximum lock time policy.
 ## Usage:
 Include the generated jar in your project dependencies, it will override Liquibase default locking.
 
+### Maven:
+```xml
+<dependency>
+  <groupId>com.hsiliev</groupId>
+  <artifactId>liquibase-lock-timeout</artifactId>
+  <version>0.5.5</version>
+</dependency>
+```
+
+### Gradle:
+```groovy
+runtimeOnly 'com.hsiliev:liquibase-lock-timeout:0.5.5'
+```
+
 ## Configuration
 Java system property `liquibase.ext.lock.maxtimeoutminutes` can be used to change the default 30 minutes timeout
-
-## Publishing
-
-Regeneration of GPG key:
-```shell
-# Provide name, email and GPG signing password
-gpg --gen-key
-
-# Obtain GPG secret signing key in base64 format
-export GPG_SIGNING_KEY=$(gpg -a --export-secret-keys hsiliev@gmail.com | base64 -w0)
-export GPG_SIGNING_PASSWORD=<password>
-```
 
 ## Credits:
 * https://github.com/oridool/liquibase-locking

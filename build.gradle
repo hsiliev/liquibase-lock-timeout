@@ -38,7 +38,7 @@ signing {
     def signingKey = new String(Base64.getDecoder().decode(System.getenv('GPG_SIGNING_KEY'))).trim()
     def signingPassword = System.getenv('GPG_SIGNING_PASSWORD')
     useInMemoryPgpKeys(signingKey, signingPassword)
-    sign configurations.archives
+    sign publishing.publications
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -52,6 +52,22 @@ dependencies {
     testRuntimeOnly group: 'com.h2database', name: 'h2', version: '2.0.204'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
     testRuntimeOnly group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32'
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
 }
 
 publishing {
