@@ -19,12 +19,10 @@ Regeneration of GPG key:
 # Provide name, email and GPG signing password
 gpg --gen-key
 
-# Obtain GPG signing key
-gpg --list-keys
-# Obtain GPG secret key in armored ascii format
-gpg --armor --export-secret-keys hsiliev@gmail.com | awk 'NR == 1 { print "GPG_SIGNING_KEY=" } 1' ORS='\\n'
+# Obtain GPG secret signing key in base64 format
+export GPG_SIGNING_KEY=$(gpg -a --export-secret-keys hsiliev@gmail.com | base64 -w0)
+export GPG_SIGNING_PASSWORD=<password>
 ```
-
 
 ## Credits:
 * https://github.com/oridool/liquibase-locking

@@ -35,7 +35,9 @@ jacocoTestReport {
 }
 
 signing {
-    useInMemoryPgpKeys(GPG_SIGNING_KEY, GPG_SIGNING_PASSWORD)
+    def signingKey = new String(Base64.getDecoder().decode(System.getenv('GPG_SIGNING_KEY'))).trim()
+    def signingPassword = System.getenv('GPG_SIGNING_PASSWORD')
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign configurations.archives
 }
 
@@ -61,6 +63,18 @@ publishing {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
             }
+        }
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/hsiliev/liquibase-lock-timeout")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
             pom {
                 name = 'Liquibase Lock Timeout'
                 description = 'Liquibase extension that unlocks the database change log after a timeout'
@@ -85,16 +99,6 @@ publishing {
                 }
             }
         }
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/hsiliev/liquibase-lock-timeout")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-            }
-        }
-    }
-    publications {
         gpr(MavenPublication) {
             from(components.java)
         }
