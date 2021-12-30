@@ -35,6 +35,7 @@ jacocoTestReport {
 }
 
 signing {
+    println ">>>>" + System.getenv('GPG_SIGNING_KEY')
     def signingKey = new String(Base64.getDecoder().decode(System.getenv('GPG_SIGNING_KEY'))).trim()
     def signingPassword = System.getenv('GPG_SIGNING_PASSWORD')
     useInMemoryPgpKeys(signingKey, signingPassword)
