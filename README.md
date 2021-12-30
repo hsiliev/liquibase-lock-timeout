@@ -12,6 +12,20 @@ Include the generated jar in your project dependencies, it will override Liquiba
 ## Configuration
 Java system property `liquibase.ext.lock.maxtimeoutminutes` can be used to change the default 30 minutes timeout
 
+## Publishing
+
+Regeneration of GPG key:
+```shell
+# Provide name, email and GPG signing password
+gpg --gen-key
+
+# Obtain GPG signing key
+gpg --list-keys
+# Obtain GPG secret key in armored ascii format
+gpg --armor --export-secret-keys hsiliev@gmail.com | awk 'NR == 1 { print "GPG_SIGNING_KEY=" } 1' ORS='\\n'
+```
+
+
 ## Credits:
 * https://github.com/oridool/liquibase-locking
 * https://github.com/liquibase/liquibase-nochangeloglock

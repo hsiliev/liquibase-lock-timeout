@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.hsiliev'
-version '0.5.2'
+version '0.5.3'
 
 
 repositories {
@@ -60,6 +60,29 @@ publishing {
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
+            }
+            pom {
+                name = 'Liquibase Lock Timeout'
+                description = 'Liquibase extension that unlocks the database change log after a timeout'
+                url = 'https://github.com/hsiliev/liquibase-lock-timeout/'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'hsiliev'
+                        name = 'Hristo Iliev'
+                        email = 'hsiliev@gmail.co,'
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/hsiliev/liquibase-lock-timeout.git'
+                    developerConnection = 'git@github.com:hsiliev/liquibase-lock-timeout.git'
+                    url = 'https://github.com/hsiliev/liquibase-lock-timeout/'
+                }
             }
         }
         maven {
