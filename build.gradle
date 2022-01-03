@@ -35,10 +35,13 @@ jacocoTestReport {
 }
 
 signing {
-    def signingKey = new String(Base64.getDecoder().decode(System.getenv('GPG_SIGNING_KEY'))).trim()
-    def signingPassword = System.getenv('GPG_SIGNING_PASSWORD')
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications
+    def signingKeyProperty = System.getenv('GPG_SIGNING_KEY');
+    if (signingKeyProperty) {
+        def signingKey = new String(Base64.getDecoder().decode(signingKeyProperty)).trim()
+        def signingPassword = System.getenv('GPG_SIGNING_PASSWORD')
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign publishing.publications
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
