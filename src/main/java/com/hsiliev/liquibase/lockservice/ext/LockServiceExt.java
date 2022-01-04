@@ -20,9 +20,15 @@ public class LockServiceExt extends StandardLockService {
     return 1000;
   }
 
+  private String getDBName() {
+    return database.getDefaultSchema() + "." +
+               database.getDatabaseChangeLogLockTableName() + " @ " +
+               database.getDatabaseProductName();
+  }
+
   @Override
   public void waitForLock() throws LockException {
-    String dbName = database.getDatabaseProductName();
+    String dbName = getDBName();
     LOG.info("Checking lock granted date for " + dbName);
 
     DatabaseChangeLogLock[] locks = listLocks();
