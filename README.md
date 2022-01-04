@@ -14,7 +14,7 @@ Include the generated jar in your project dependencies, it will override Liquiba
 <dependency>
   <groupId>com.hsiliev</groupId>
   <artifactId>liquibase-lock-timeout</artifactId>
-  <version>0.5.5</version>
+  <version>0.5.6</version>
   <scope>runtime</scope>
 </dependency>
 ```
