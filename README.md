@@ -21,7 +21,7 @@ Include the generated jar in your project dependencies, it will override Liquiba
 
 ### Gradle
 ```groovy
-runtimeOnly 'com.hsiliev:liquibase-lock-timeout:0.5.5'
+runtimeOnly 'com.hsiliev:liquibase-lock-timeout:0.5.6'
 ```
 
 ## Configuration
