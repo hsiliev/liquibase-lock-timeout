@@ -21,7 +21,12 @@ public class LockServiceExt extends StandardLockService {
   }
 
   private String getDBName() {
-    return database.getDefaultSchema() + "." +
+    String schemaName = database.getLiquibaseSchemaName();
+    if (schemaName == null) {
+      schemaName = database.getDefaultSchemaName();
+    }
+
+    return schemaName + "." +
                database.getDatabaseChangeLogLockTableName() + " @ " +
                database.getDatabaseProductName();
   }
