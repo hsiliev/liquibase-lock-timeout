@@ -3,11 +3,11 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version "1.1.0"
 }
 
 group 'com.hsiliev'
 version '0.5.7'
-
 
 repositories {
     mavenCentral()
@@ -58,12 +58,12 @@ dependencies {
 }
 
 task sourceJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -71,6 +71,15 @@ artifacts {
     archives jar
     archives sourceJar
     archives javadocJar
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
 }
 
 publishing {
@@ -100,7 +109,7 @@ publishing {
                     developer {
                         id = 'hsiliev'
                         name = 'Hristo Iliev'
-                        email = 'hsiliev@gmail.co,'
+                        email = 'hsiliev@gmail.com'
                     }
                 }
                 scm {
